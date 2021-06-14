@@ -3,7 +3,6 @@ import cx from "classnames";
 
 import { countries as AllCountries } from "../../data";
 import {
-  countryCodeToPascalCase,
   getCountryCodes,
   isCustomLabelObject,
   isCountryLabelMatch,
@@ -14,15 +13,11 @@ import type {
   CustomLabels,
   OnSelect,
 } from "../../types";
-import * as flags from "../Flags";
 
 import styles from "./ReactFlagsSelect.module.scss";
 
 const defaultPlaceholder = "Select a country";
 const defaultSearchPlaceholder = "Search";
-
-type Flags = typeof flags;
-type FlagKey = keyof Flags;
 
 type Props = {
   className?: string;
@@ -86,14 +81,6 @@ const ReactFlagsSelect: React.FC<Props> = ({
     : "";
 
   const options = filterValue ? filteredCountriesOptions : countriesOptions;
-
-  const getFlag = (key: FlagKey): Flags[FlagKey] => flags[key];
-
-  const getSelectedFlag = (): React.ReactElement => {
-    const selectedFlagName = countryCodeToPascalCase(validSelectedValue);
-    const SelectedFlag = getFlag(selectedFlagName as FlagKey);
-    return <SelectedFlag />;
-  };
 
   const getLabel = (countryCode: string) => {
     return customLabels[countryCode] || AllCountries[countryCode];
@@ -203,12 +190,6 @@ const ReactFlagsSelect: React.FC<Props> = ({
         <span className={styles.selectValue}>
           {validSelectedValue ? (
             <>
-              <span
-                className={styles.selectFlag}
-                data-testid="rfs-selected-flag"
-              >
-                {getSelectedFlag()}
-              </span>
               {showSelectedLabel && (
                 <span className={styles.label}>
                   {isCustomLabelObject(displayLabel)
@@ -254,8 +235,6 @@ const ReactFlagsSelect: React.FC<Props> = ({
             </div>
           )}
           {options.map((countryCode) => {
-            const countryFlagName = countryCodeToPascalCase(countryCode);
-            const CountryFlag = getFlag(countryFlagName as FlagKey);
             const countryLabel = getLabel(countryCode);
 
             return (
@@ -271,9 +250,6 @@ const ReactFlagsSelect: React.FC<Props> = ({
                 onKeyUp={(e) => onSelectWithKeyboard(e, countryCode)}
               >
                 <span className={styles.selectOptionValue}>
-                  <span className={styles.selectFlag}>
-                    <CountryFlag />
-                  </span>
                   {showOptionLabel && (
                     <span className={styles.label}>
                       {isCustomLabelObject(countryLabel)

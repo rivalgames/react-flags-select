@@ -11,15 +11,12 @@
     "lint": "yarn check-types && yarn lint:js",
     "check-types": "tsc --noEmit",
     "lint:js": "eslint src --ext .js,.json,.ts,.tsx",
-    "prebuild": "yarn gen-flags-components",
     "build": "rollup -c",
-    "prestart": "yarn gen-flags-components",
     "start": "start-storybook -p 6006",
     "test": "jest",
     "test:watch": "jest --watch",
     "prepublishOnly": "yarn build",
-    "build-storybook": "build-storybook",
-    "gen-flags-components": "node node_modules/@svgr/cli/bin/svgr --typescript --icon -d src/components/Flags/Countries --ignore-existing flags"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "classnames": "^2.2.6"
